@@ -17,11 +17,11 @@ server.use("/static", express.static(path.join(__dirname, "./js")));
 server.get("/", function(req, res){
     res.sendFile("./index.html");
 });
-server.get("/view", function(req, res){
-
+server.get("/reservation", function(req, res){
+    res.sendFile("./reservation.html");
 });
 server.get("/make", function(req, res){
-
+    res.sendFile("./tables.html");
 });
 server.get("/api/tables", function(req, res){
     res.json(reservations);
