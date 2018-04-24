@@ -28,7 +28,15 @@ server.get("/api/tables", function(req, res){
 server.post("/api/reserve/:reservation", function(req, res){
     var reservation = req.params.reservation;
     console.log(reservation)
+    if(reservations.length > 5){
+        reservation.seated = false;
+    }else{
+        reservation.seated = true;
+    }
     reservations.push(reservation);
+});
+server.post("/api/clear", function(req, res){
+    reservations = [];
 });
 
 //initialize server
