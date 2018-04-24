@@ -23,10 +23,10 @@ window.onload = function() {
 
     // sets user input into an object
     var userObj = {
-      reserve_name_val,
-      reserve_phone_val,
-      reserve_email_val,
-      reserve_uniqueID_val
+      name: reserve_name_val,
+      phone: reserve_phone_val,
+      email: reserve_email_val,
+      id: reserve_uniqueID_val
     };
 
     // posts
