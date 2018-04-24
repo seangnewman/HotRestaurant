@@ -6,11 +6,19 @@ var bodyParser = require("body-parser");
 const PORT = 8080;
 
 
-var reservations = [];
+var reservations = [
+    {
+        name: "dummy",
+        email: "email@email.com",
+        phone: "4444444444",
+        id: "-1",
+        seated: true
+    }
+];
 //middleware
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
-server.use("/static", express.static(path.join(__dirname, "./js")));
+server.use("/static", express.static(path.join(__dirname, "/js")));
 
 //routes
 server.get("/", function(req, res){
@@ -23,7 +31,7 @@ server.get("/tables", function(req, res){
     res.sendFile(path.join(__dirname, "/tables.html"));
 });
 server.get("/api/tables", function(req, res){
-    var ouput = [];
+    var output = [];
     reservations.forEach(function(reservation){
         if(reservation.seated){
             output.push(reservation);
