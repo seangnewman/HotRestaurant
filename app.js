@@ -9,7 +9,7 @@ var reservations = [];
 //middleware
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
-server.use("/static", express.static(path.join(__dirname, "js")));
+server.use("/static", express.static(path.join(__dirname, "./js")));
 
 //routes
 server.get("/home", function(req, res){
@@ -22,10 +22,11 @@ server.get("/make", function(req, res){
 
 });
 server.get("/api/tables", function(req, res){
-
+    res.json(reservations);
 });
-server.post("/api/reserve/:reservations", function(req, res){
-    req.bodyu
+server.post("/api/reserve/:reservation", function(req, res){
+    var reservation = req.params.reservation;
+    reservations.push(reservation);
 });
 
 //
