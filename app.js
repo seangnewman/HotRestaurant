@@ -1,60 +1,40 @@
-var express = require ("express");
-var path = require("path")
-var server = express();
-var bodyParser = require("body-parser");
+window.onload = function() {
+  // selects input fields
+  var reserve_name = document.getElementById("reserve_name");
+  var reserve_phone = document.getElementById("reserve_phone");
+  var reserve_email = document.getElementById("reserve_email");
+  var reserve_uniqueID = document.getElementById("reserve_uniqueID");
+  var res_submit = document.getElementById("res_submit");
 
-const PORT = 8080;
+  // clears form values
+  function clearAll() {
+    reserve_name.value = "";
+    reserve_phone.value = "";
+    reserve_email.value = "";
+    reserve_uniqueID.value = "";
+  }
 
+  // gets input field values on click
+  res_submit.onclick = function() {
+    var reserve_name_val = reserve_name.value.trim();
+    var reserve_phone_val = reserve_phone_val.value.trim();
+    var reserve_email_val = reserve_email_val.value.trim();
+    var reserve_uniqueID_val = reserve_email_val.value.trim();
 
-var reservations = [];
-//middleware
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
-server.use("/static", express.static(path.join(__dirname, "./js")));
+    // sets user input into an object
+    var userObj = {
+      name: reserve_name_val,
+      phone: reserve_phone_val,
+      email: reserve_email_val,
+      id: reserve_uniqueID_val
+    };
 
-//routes
-server.get("/", function(req, res){
-    res.sendFile(path.join(__dirname, "/index.html"));
-});
-server.get("/reserve", function(req, res){
-    res.sendFile(path.join(__dirname, "/reservation.html"));
-});
-server.get("/tables", function(req, res){
-    res.sendFile(path.join(__dirname, "/tables.html"));
-});
-server.get("/api/tables", function(req, res){
-    var ouput = [];
-    reservations.forEach(function(reservation){
-        if(reservation.seated){
-            output.push(reservation);
-        }
-    });
-    res.json(output);
-});
-server.get("/api/waitlist", function(req, res){
-    var output = [];
-    reservations.forEach(function(reservation){
-        if(!reservation.seated){
-            output.push(reservation);
-        }
-    });
-    res.json(output);
-});
-server.post("/api/reserve/:reservation", function(req, res){
-    var reservation = req.params.reservation;
-    console.log(reservation);
-    if(reservations.length > 5){
-        reservation.seated = false;
-    }else{
-        reservation.seated = true;
-    }
-    reservations.push(reservation);
-});
-server.post("/api/clear", function(req, res){
-    reservations = [];
-});
+    // posts
+    $.ajax({ method: "POST", url: "/api/reserve", data: userObj }).done(
+      function() {
+        clearAll();
+      }
+    );
+  };
+};
 
-//initialize server
-server.listen(PORT, function(){
-    console.log("Listening on port " + PORT);
-});
