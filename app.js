@@ -4,6 +4,8 @@ var path = require("path")
 var server = express();
 var bodyParser = require("body-parser");
 
+const PORT = 8080;
+
 
 var reservations = [];
 //middleware
@@ -12,8 +14,8 @@ server.use(bodyParser.json());
 server.use("/static", express.static(path.join(__dirname, "./js")));
 
 //routes
-server.get("/home", function(req, res){
-
+server.get("/", function(req, res){
+    res.sendFile("./index.html");
 });
 server.get("/view", function(req, res){
 
@@ -30,3 +32,6 @@ server.post("/api/reserve/:reservation", function(req, res){
 });
 
 //
+server.listen(PORT, function(){
+    console.log("Listening on port " + PORT);
+});
