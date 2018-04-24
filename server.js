@@ -23,11 +23,26 @@ server.get("/tables", function(req, res){
     res.sendFile(path.join(__dirname, "/tables.html"));
 });
 server.get("/api/tables", function(req, res){
-    res.json(reservations);
+    var ouput = [];
+    reservations.forEach(function(reservation){
+        if(reservation.seated){
+            output.push(reservation);
+        }
+    });
+    res.json(output);
+});
+server.get("/api/waitlist", function(req, res){
+    var output = [];
+    reservations.forEach(function(reservation){
+        if(!reservation.seated){
+            output.push(reservation);
+        }
+    });
+    res.json(output);
 });
 server.post("/api/reserve/:reservation", function(req, res){
     var reservation = req.params.reservation;
-    console.log(reservation)
+    console.log(reservation);
     if(reservations.length > 5){
         reservation.seated = false;
     }else{
